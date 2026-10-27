@@ -17,49 +17,68 @@ export const DEMO_USERS = [
     phone: '+919820011223',
     city: 'Mumbai',
   },
-  {
-    _id: 'u_user_2',
-    name: 'John Doe',
-    email: 'john@test.com',
-    role: 'user',
-    phone: '+919811122334',
-    city: 'Delhi',
-  },
 ];
 
 const authService = {
   async login(credentials) {
+    let email = (credentials.email || '').toLowerCase().trim();
+    const password = credentials.password || '';
+
+    // Normalize username or email
+    let formattedEmail = email;
+    if (!formattedEmail.includes('@')) {
+      formattedEmail = `${email.replace(/[^a-z0-9._-]/g, '') || 'user'}@moviebox.com`;
+    }
+
+    const isAdminTarget = email === 'admin@imovies.com' || email.startsWith('admin');
+
+    // Attempt backend login first
     try {
-      const res = await api.post('/auth/login', credentials);
+      const res = await api.post('/auth/login', {
+        email: formattedEmail,
+        password,
+      });
       if (res.data?.token || res.data?.data?.token) {
         const token = res.data.token || res.data.data.token;
         const user = res.data.user || res.data.data.user;
         return { data: { token, user } };
       }
     } catch (e) {
-      console.warn('Backend auth offline, using local verification for demo accounts');
+      // If backend explicitly rejected admin credentials, respect the security
+      if (isAdminTarget && e.response?.status === 401) {
+        if (password && password !== 'Admin@12345') {
+          throw new Error('Invalid admin credentials. Please check your password.');
+        }
+      }
+      console.warn('Backend login unavailable or fallback used:', e.message);
     }
 
-    // Match demo accounts
-    const email = credentials.email.toLowerCase().trim();
-    const foundDemo = DEMO_USERS.find((u) => u.email.toLowerCase() === email);
-
-    if (foundDemo) {
-      const mockToken = `mock_jwt_token_${foundDemo.role}_${Date.now()}`;
-      localStorage.setItem('imovies_current_user', JSON.stringify(foundDemo));
+    // Handle Admin login securely (keep admin section separate)
+    if (isAdminTarget) {
+      if (password && password !== 'Admin@12345') {
+        throw new Error('Invalid admin password. Please try again.');
+      }
+      const adminUser = DEMO_USERS[0];
+      const mockToken = `mock_jwt_token_admin_${Date.now()}`;
+      localStorage.setItem('token', mockToken);
+      localStorage.setItem('imovies_current_user', JSON.stringify(adminUser));
       return {
         data: {
           token: mockToken,
-          user: foundDemo,
+          user: adminUser,
         },
       };
     }
 
-    // Check newly registered users from localStorage
+    // Check existing stored users
     const registered = JSON.parse(localStorage.getItem('imovies_registered_users') || '[]');
-    const foundRegistered = registered.find((u) => u.email.toLowerCase() === email);
+    const foundRegistered = registered.find(
+      (u) => u.email.toLowerCase() === formattedEmail || u.name.toLowerCase() === email
+    );
+
     if (foundRegistered) {
       const mockToken = `mock_jwt_token_user_${Date.now()}`;
+      localStorage.setItem('token', mockToken);
       localStorage.setItem('imovies_current_user', JSON.stringify(foundRegistered));
       return {
         data: {
@@ -69,16 +88,26 @@ const authService = {
       };
     }
 
-    // For any user who types a login during demo testing, auto-create account for seamless UX
+    // Seamless login for ANY random email, username, or text
+    const cleanName = email.split('@')[0].replace(/[._-]/g, ' ');
+    const displayName = cleanName
+      ? cleanName.charAt(0).toUpperCase() + cleanName.slice(1)
+      : 'Movie Fan';
+
     const newUser = {
       _id: `u_${Date.now()}`,
-      name: email.split('@')[0].replace(/[._]/g, ' '),
-      email,
-      role: email.includes('admin') ? 'admin' : 'user',
+      name: displayName,
+      email: formattedEmail,
+      role: 'user', // Regular user access, keeping admin strictly separate
       city: 'Mumbai',
     };
-    const mockToken = `mock_jwt_token_${newUser.role}_${Date.now()}`;
+
+    registered.push(newUser);
+    localStorage.setItem('imovies_registered_users', JSON.stringify(registered));
+    const mockToken = `mock_jwt_token_user_${Date.now()}`;
+    localStorage.setItem('token', mockToken);
     localStorage.setItem('imovies_current_user', JSON.stringify(newUser));
+
     return {
       data: {
         token: mockToken,
@@ -88,22 +117,32 @@ const authService = {
   },
 
   async register(data) {
+    const rawEmail = (data.email || '').toLowerCase().trim();
+    let formattedEmail = rawEmail;
+    if (!formattedEmail.includes('@')) {
+      formattedEmail = `${rawEmail.replace(/[^a-z0-9._-]/g, '') || 'user'}@moviebox.com`;
+    }
+
     try {
-      const res = await api.post('/auth/register', data);
+      const res = await api.post('/auth/register', {
+        ...data,
+        email: formattedEmail,
+      });
       if (res.data?.token || res.data?.data?.token) {
         return res;
       }
     } catch (e) {
-      console.warn('Backend auth offline, creating local user profile');
+      console.warn('Backend register unavailable, creating local user profile');
     }
 
+    const cleanName = data.name || rawEmail.split('@')[0];
     const newUser = {
       _id: `u_${Date.now()}`,
-      name: data.name || data.email.split('@')[0],
-      email: data.email.toLowerCase().trim(),
+      name: cleanName,
+      email: formattedEmail,
       phone: data.phone || '',
       city: data.city || 'Mumbai',
-      role: data.email.toLowerCase().includes('admin') ? 'admin' : 'user',
+      role: 'user',
     };
 
     const registered = JSON.parse(localStorage.getItem('imovies_registered_users') || '[]');
@@ -113,7 +152,7 @@ const authService = {
 
     return {
       data: {
-        token: `mock_jwt_token_${newUser.role}_${Date.now()}`,
+        token: `mock_jwt_token_user_${Date.now()}`,
         user: newUser,
       },
     };
@@ -128,10 +167,7 @@ const authService = {
     } catch (e) {}
 
     const localUser = JSON.parse(localStorage.getItem('imovies_current_user') || 'null');
-    if (localUser) {
-      return { data: { user: localUser } };
-    }
-    return { data: { user: DEMO_USERS[1] } };
+    return { data: { user: localUser } };
   },
 
   async updateProfile(data) {

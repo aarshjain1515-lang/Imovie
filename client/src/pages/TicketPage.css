@@ -1,9 +1,10 @@
 .ticket-page {
-  padding: 48px 0 64px;
+  padding: 56px 0 80px;
+  background-color: var(--bg-page);
 }
 
 .ticket-page-container {
-  max-width: 520px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -11,31 +12,49 @@
 .ticket-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 32px 24px;
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
   text-align: center;
+  box-shadow: var(--shadow-card-hover);
+  position: relative;
+  overflow: hidden;
+}
+
+.ticket-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--accent);
 }
 
 .ticket-status-pill {
-  display: inline-block;
-  background-color: rgba(16, 185, 129, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
   color: #10b981;
   font-size: 12px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 20px;
-  margin-bottom: 16px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
 }
 
 .ticket-movie-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  margin-bottom: 4px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
 }
 
 .ticket-booking-ref {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-tertiary);
   font-family: monospace;
   margin-bottom: 24px;
@@ -45,9 +64,9 @@
   background-color: #ffffff;
   padding: 16px;
   display: inline-block;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  margin-bottom: 8px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  margin-bottom: 10px;
 }
 
 .ticket-scan-hint {
@@ -61,24 +80,25 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   text-align: left;
-  background-color: var(--bg-page);
+  background: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 16px;
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
   margin-bottom: 28px;
 }
 
 .detail-cell {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .cell-label {
   font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   color: var(--text-tertiary);
-  margin-bottom: 2px;
+  text-transform: uppercase;
 }
 
 .cell-value {
@@ -89,32 +109,27 @@
 
 .ticket-actions {
   display: flex;
-  flex-direction: column;
   gap: 12px;
-  align-items: center;
+  justify-content: center;
 }
 
 .link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   font-size: 13px;
-  font-weight: 500;
-  color: var(--accent);
+  font-weight: 600;
   text-decoration: none;
+  transition: all var(--transition-fast);
 }
 
 .link-button:hover {
-  text-decoration: underline;
-}
-
-@media print {
-  header, footer, .ticket-actions, .theme-toggle-btn {
-    display: none !important;
-  }
-  body, .ticket-page {
-    background: #ffffff !important;
-    color: #000000 !important;
-    padding: 0 !important;
-  }
-  .ticket-card {
-    border: none !important;
-  }
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
 }

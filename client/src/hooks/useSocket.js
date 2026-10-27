@@ -5,57 +5,52 @@ export function useSocket(showId) {
   const socketRef = useRef(null);
 
   useEffect(() => {
-    if (!showId) return;
-
-    socketRef.current = io('/', {
-      query: { showId },
-      transports: ['websocket', 'polling'],
-    });
-
-    socketRef.current.on('connect', () => {
-      socketRef.current.emit('join-show', showId);
-    });
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+    try {
+      socketRef.current = io(socketUrl, {
+        autoConnect: false,
+        transports: ['websocket', 'polling'],
+        timeout: 2000,
+      });
+      socketRef.current.connect();
+    } catch (e) {
+      console.warn('Socket initialisation note:', e.message);
+    }
 
     return () => {
       if (socketRef.current) {
-        socketRef.current.emit('leave-show', showId);
-        socketRef.current.disconnect();
+        try {
+          socketRef.current.disconnect();
+        } catch (e) {}
       }
     };
   }, [showId]);
 
-  const onSeatUpdate = useCallback((callback) => {
-    if (socketRef.current) {
-      socketRef.current.on('seat-update', callback);
-    }
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.off('seat-update', callback);
+  const emit = useCallback((event, ...args) => {
+    try {
+      if (socketRef.current?.connected) {
+        socketRef.current.emit(event, ...args);
       }
-    };
+    } catch (e) {}
   }, []);
 
-  const onSeatLocked = useCallback((callback) => {
-    if (socketRef.current) {
-      socketRef.current.on('seat-locked', callback);
-    }
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.off('seat-locked', callback);
-      }
-    };
+  const on = useCallback((event, handler) => {
+    try {
+      socketRef.current?.on(event, handler);
+    } catch (e) {}
   }, []);
 
-  const onSeatUnlocked = useCallback((callback) => {
-    if (socketRef.current) {
-      socketRef.current.on('seat-unlocked', callback);
-    }
-    return () => {
-      if (socketRef.current) {
-        socketRef.current.off('seat-unlocked', callback);
-      }
-    };
+  const off = useCallback((event, handler) => {
+    try {
+      socketRef.current?.off(event, handler);
+    } catch (e) {}
   }, []);
 
-  return { socket: socketRef, onSeatUpdate, onSeatLocked, onSeatUnlocked };
+  return {
+    socket: socketRef,
+    emit,
+    on,
+    off,
+    connected: Boolean(socketRef.current?.connected),
+  };
 }

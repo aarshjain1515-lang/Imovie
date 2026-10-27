@@ -51,10 +51,11 @@ export default function TicketPage() {
     );
   }
 
+  const seatList = Array.isArray(booking.seats) ? booking.seats : [];
   const qrPayload = JSON.stringify({
-    bookingId: booking._id,
-    seats: booking.seats.map((s) => `${s.row}${s.number}`),
-    showId: booking.showId?._id || booking.showId,
+    bookingId: booking._id || booking.bookingId || 'IMV-TICKET',
+    seats: seatList.map((s) => `${s.row}${s.number}`),
+    showId: booking.showId?._id || booking.showId || 'show-1',
   });
 
   return (
@@ -87,13 +88,13 @@ export default function TicketPage() {
             <div className="detail-cell">
               <span className="cell-label">SHOWTIME</span>
               <span className="cell-value">
-                {booking.showId?.time || 'Show'} • {new Date(booking.bookedAt).toLocaleDateString()}
+                {booking.showId?.time || 'Show'} • {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : 'Today'}
               </span>
             </div>
             <div className="detail-cell">
               <span className="cell-label">SEATS</span>
               <span className="cell-value">
-                {booking.seats.map((s) => `${s.row}${s.number}`).join(', ')}
+                {seatList.length > 0 ? seatList.map((s) => `${s.row}${s.number}`).join(', ') : 'General'}
               </span>
             </div>
             <div className="detail-cell">

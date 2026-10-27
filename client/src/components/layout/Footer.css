@@ -1,21 +1,21 @@
 .site-footer {
-  background-color: #0b0b0d;
-  color: #9ca3af;
-  border-top: 1px solid #1f2937;
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
   margin-top: auto;
-  padding: 48px 24px 24px;
+  padding: 56px 24px 28px;
 }
 
 .footer-container {
-  max-width: 1240px;
+  max-width: var(--max-width);
   margin: 0 auto;
 }
 
 .footer-columns {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 36px;
-  margin-bottom: 40px;
+  gap: 40px;
+  margin-bottom: 44px;
 }
 
 .brand-column {
@@ -23,11 +23,11 @@
 }
 
 .footer-logo {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
   margin-bottom: 12px;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
 }
 
 .footer-logo .logo-dot {
@@ -37,49 +37,76 @@
 .footer-desc {
   font-size: 13px;
   line-height: 1.6;
-  color: #9ca3af;
+  color: var(--text-tertiary);
 }
 
 .footer-heading {
   font-size: 14px;
-  font-weight: 600;
-  color: #ffffff;
-  margin-bottom: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: -0.2px;
 }
 
 .footer-links {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .footer-links a {
-  color: #9ca3af;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 13px;
-  transition: color 0.1s ease;
+  transition: color var(--transition-fast);
 }
 
 .footer-links a:hover {
-  color: #ffffff;
+  color: var(--accent);
 }
 
 .footer-bottom {
-  border-top: 1px solid #1f2937;
-  padding-top: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
-@media (max-width: 1024px) {
+.footer-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+@media (max-width: 860px) {
   .footer-columns {
     grid-template-columns: 1fr 1fr;
+    gap: 32px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 520px) {
   .footer-columns {
     grid-template-columns: 1fr;
     gap: 28px;

@@ -1,5 +1,5 @@
 import api from './api';
-import { generateMockShows } from './mockData';
+import { generateMockShows, MOCK_MOVIES } from './mockData';
 
 const showService = {
   async getAll(params = {}) {
@@ -22,10 +22,21 @@ const showService = {
   async getById(showId) {
     try {
       const res = await api.get(`/shows/${showId}`);
-      if (res.data?.data) return res;
+      if (res.data?.data) {
+        let show = res.data.data;
+        if (typeof show.movieId === 'string') {
+          const found = MOCK_MOVIES.find((m) => m._id === show.movieId || m.slug === show.movieId) || MOCK_MOVIES[0];
+          show = { ...show, movieId: found };
+        }
+        return { data: { success: true, data: show } };
+      }
     } catch (e) {}
     const shows = generateMockShows(null, 'Mumbai');
-    const show = shows.find((s) => s._id === showId) || shows[0];
+    let show = shows.find((s) => s._id === showId) || shows[0];
+    if (show && typeof show.movieId === 'string') {
+      const found = MOCK_MOVIES.find((m) => m._id === show.movieId || m.slug === show.movieId) || MOCK_MOVIES[0];
+      show = { ...show, movieId: found };
+    }
     return { data: { success: true, data: show } };
   },
 

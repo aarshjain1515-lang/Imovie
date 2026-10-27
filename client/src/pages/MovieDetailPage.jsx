@@ -215,9 +215,21 @@ export default function MovieDetailPage() {
     <div className="movie-detail-page">
       {/* Movie Hero Meta Bar */}
       <section className="detail-hero">
+        {(movie.backdrop || movie.poster) && (
+          <div
+            className="detail-hero-backdrop"
+            style={{ backgroundImage: `url(${movie.backdrop || movie.poster})` }}
+          />
+        )}
+        <div className="detail-hero-mask" />
+
         <div className="detail-container hero-grid">
-          <div className="hero-poster" style={{ backgroundColor: movie.posterColor || '#1a1a2e' }}>
-            <span className="hero-poster-title">{movie.title}</span>
+          <div className="hero-poster" style={{ backgroundColor: movie.posterColor || '#14161f' }}>
+            {movie.poster ? (
+              <img src={movie.poster} alt={movie.title} className="hero-poster-img" />
+            ) : (
+              <span className="hero-poster-title">{movie.title}</span>
+            )}
           </div>
 
           <div className="hero-info">
@@ -238,11 +250,11 @@ export default function MovieDetailPage() {
               <span className="meta-item">{movie.duration} min</span>
               <span className="bullet">•</span>
               <span className="meta-item">
-                {new Date(movie.releaseDate).toLocaleDateString('en-US', {
+                {movie.releaseDate ? new Date(movie.releaseDate).toLocaleDateString('en-US', {
                   month: 'short',
                   day: 'numeric',
                   year: 'numeric',
-                })}
+                }) : 'Now Showing'}
               </span>
             </div>
 

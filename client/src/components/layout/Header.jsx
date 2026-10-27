@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
@@ -9,16 +10,23 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { city, cities, changeCity } = useCity();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const displayName = user?.name || user?.email || 'User';
+  const initial = displayName.charAt(0).toUpperCase();
+  const firstName = displayName.split(' ')[0];
+
+  const closeMenu = () => setMobileMenuOpen(false);
 
   return (
     <header className="site-header">
       <div className="header-container">
         <div className="header-left">
-          <Link to="/" className="site-logo">
+          <Link to="/" className="site-logo" onClick={closeMenu}>
             i<span className="logo-dot">●</span>Movies
           </Link>
 
-          <div className="city-picker-wrapper">
+          <div className="city-picker-wrapper desktop-only">
             <select
               id="headerCitySelect"
               value={city}
@@ -34,7 +42,7 @@ export default function Header() {
             </select>
           </div>
 
-          <nav className="header-nav">
+          <nav className="header-nav desktop-only">
             <NavLink
               to="/"
               end
@@ -103,10 +111,10 @@ export default function Header() {
           </button>
 
           {user ? (
-            <div className="user-profile-menu">
+            <div className="user-profile-menu desktop-only">
               <Link to="/profile" className="profile-btn" title="View Profile">
-                <span className="profile-avatar">{user.name.charAt(0).toUpperCase()}</span>
-                <span className="profile-name">{user.name.split(' ')[0]}</span>
+                <span className="profile-avatar">{initial}</span>
+                <span className="profile-name">{firstName}</span>
               </Link>
               <button type="button" onClick={logout} className="logout-btn">
                 Log out
@@ -116,13 +124,108 @@ export default function Header() {
             <button
               type="button"
               onClick={() => navigate('/login')}
-              className="login-header-btn"
+              className="login-header-btn desktop-only"
             >
               Log in
             </button>
           )}
+
+          {/* Mobile menu toggle hamburger */}
+          <button
+            type="button"
+            className="mobile-hamburger-btn"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="mobile-drawer">
+          <div className="mobile-drawer-header">
+            <div className="city-picker-wrapper mobile-city-picker">
+              <label htmlFor="mobileCitySelect" style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>City: </label>
+              <select
+                id="mobileCitySelect"
+                value={city}
+                onChange={(e) => changeCity(e.target.value)}
+                className="city-select"
+              >
+                {cities.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <nav className="mobile-nav-links">
+            <NavLink to="/" end className="mobile-nav-item" onClick={closeMenu}>
+              🎬 Now showing
+            </NavLink>
+            <NavLink to="/movies" className="mobile-nav-item" onClick={closeMenu}>
+              🍿 All movies
+            </NavLink>
+            {user && (
+              <>
+                <NavLink to="/my-tickets" className="mobile-nav-item" onClick={closeMenu}>
+                  🎟️ My tickets
+                </NavLink>
+                <NavLink to="/watchlist" className="mobile-nav-item" onClick={closeMenu}>
+                  ❤️ Watchlist
+                </NavLink>
+                <NavLink to="/profile" className="mobile-nav-item" onClick={closeMenu}>
+                  👤 Profile ({displayName})
+                </NavLink>
+              </>
+            )}
+            {user?.role === 'admin' && (
+              <NavLink to="/admin" className="mobile-nav-item admin-link" onClick={closeMenu}>
+                👑 Admin Dashboard
+              </NavLink>
+            )}
+          </nav>
+
+          <div className="mobile-drawer-footer">
+            {user ? (
+              <button
+                type="button"
+                className="mobile-auth-btn logout"
+                onClick={() => {
+                  logout();
+                  closeMenu();
+                }}
+              >
+                Log out
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="mobile-auth-btn login"
+                onClick={() => {
+                  navigate('/login');
+                  closeMenu();
+                }}
+              >
+                Log in
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

@@ -2,46 +2,70 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-sm);
+  gap: 8px;
   padding: 10px 20px;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
   line-height: 1.4;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: all var(--transition-fast);
   white-space: nowrap;
   text-decoration: none;
+  font-family: inherit;
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 /* Primary */
 .btn--primary {
-  background-color: var(--accent);
+  background: var(--accent);
   color: #ffffff;
   border-color: var(--accent);
+  box-shadow: 0 4px 14px var(--accent-glow);
 }
 
 .btn--primary:hover:not(:disabled) {
-  background-color: var(--accent-hover);
+  background: var(--accent-hover);
   border-color: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.btn--primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 /* Secondary */
 .btn--secondary {
-  background-color: transparent;
+  background-color: var(--bg-card);
   color: var(--text-primary);
   border-color: var(--border);
 }
 
 .btn--secondary:hover:not(:disabled) {
-  border-color: var(--text-tertiary);
-  background-color: var(--bg-page);
+  border-color: var(--border-hover);
+  background-color: var(--bg-card-hover);
+  transform: translateY(-1px);
+}
+
+/* Outline */
+.btn--outline {
+  background-color: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+.btn--outline:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background-color: rgba(244, 63, 94, 0.04);
 }
 
 /* Ghost */
@@ -70,12 +94,12 @@
 /* Sizes */
 .btn--sm {
   padding: 6px 14px;
-  font-size: var(--font-size-xs);
+  font-size: 12px;
 }
 
 .btn--lg {
   padding: 14px 28px;
-  font-size: var(--font-size-md);
+  font-size: 16px;
 }
 
 /* Full width */

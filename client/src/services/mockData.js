@@ -1,5 +1,5 @@
 // Offline & Development Mock Dataset for iMovies
-// Ensures the client is 100% functional and interactive even before connecting to MongoDB
+// Ensures the client is 100% functional, interactive and visually stunning
 
 export const MOCK_MOVIES = [
   {
@@ -12,8 +12,9 @@ export const MOCK_MOVIES = [
     duration: 166,
     rating: 8.8,
     releaseDate: '2024-03-01',
+    poster: 'https://image.tmdb.org/t/p/w780/1pdfLvkbY9ohJlCjQH2CZjjYVvJ.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/xOMo8BRK7PfcJv9JCnx7s520bEx.jpg',
     posterColor: '#c29047',
-    posterShape: 'circle',
     featured: true,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -28,8 +29,9 @@ export const MOCK_MOVIES = [
     duration: 180,
     rating: 8.9,
     releaseDate: '2023-07-21',
+    poster: 'https://image.tmdb.org/t/p/w780/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg',
     posterColor: '#e76f51',
-    posterShape: 'bars',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -44,8 +46,9 @@ export const MOCK_MOVIES = [
     duration: 148,
     rating: 8.8,
     releaseDate: '2024-02-15',
+    poster: 'https://image.tmdb.org/t/p/w780/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg',
     posterColor: '#2a9d8f',
-    posterShape: 'waves',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -60,8 +63,9 @@ export const MOCK_MOVIES = [
     duration: 181,
     rating: 8.4,
     releaseDate: '2024-04-10',
+    poster: 'https://image.tmdb.org/t/p/w780/or06FN3Dka5tukK1e9sl16pB3iy.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg',
     posterColor: '#457b9d',
-    posterShape: 'star',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -76,8 +80,9 @@ export const MOCK_MOVIES = [
     duration: 169,
     rating: 7.8,
     releaseDate: '2023-09-07',
+    poster: 'https://image.tmdb.org/t/p/w780/jhi3tMhkD926h28j09t6p6hHw5h.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/4nM0bovD045JvU0QGq04pZ2R73q.jpg',
     posterColor: '#e63946',
-    posterShape: 'triangle',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -92,8 +97,9 @@ export const MOCK_MOVIES = [
     duration: 169,
     rating: 8.7,
     releaseDate: '2024-01-20',
+    poster: 'https://image.tmdb.org/t/p/w780/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/xJHokMbljvjADYdit5fK5VQsXEG.jpg',
     posterColor: '#1d3557',
-    posterShape: 'ring',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai'],
     status: 'now_showing',
@@ -108,8 +114,9 @@ export const MOCK_MOVIES = [
     duration: 164,
     rating: 7.9,
     releaseDate: '2023-10-19',
+    poster: 'https://image.tmdb.org/t/p/w780/pD6sL4vntUOXHmuvJPPZAgvyfd9.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/b5r6fL4d3eY4eJ2rK8p9o9e3i9P.jpg',
     posterColor: '#2b9348',
-    posterShape: 'diamond',
     featured: false,
     cities: ['Mumbai', 'Bangalore', 'Chennai'],
     status: 'now_showing',
@@ -124,8 +131,9 @@ export const MOCK_MOVIES = [
     duration: 175,
     rating: 7.5,
     releaseDate: '2023-12-22',
+    poster: 'https://image.tmdb.org/t/p/w780/46sp94XF7cZf66w74iQo4kLup8B.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg',
     posterColor: '#582f0e',
-    posterShape: 'hexagon',
     featured: false,
     cities: ['Bangalore', 'Hyderabad', 'Mumbai'],
     status: 'now_showing',
@@ -140,8 +148,9 @@ export const MOCK_MOVIES = [
     duration: 105,
     rating: 7.9,
     releaseDate: '2024-02-09',
+    poster: 'https://image.tmdb.org/t/p/w780/k3waqVXSnvCZWfJYNtdamTgTtTA.jpg',
+    backdrop: 'https://image.tmdb.org/t/p/w1280/vI0FpC5Cg1m7O8x9Ea4O4gY7C4E.jpg',
     posterColor: '#9b5de5',
-    posterShape: 'cross',
     featured: false,
     cities: ['Mumbai', 'Delhi', 'Bangalore'],
     status: 'now_showing',
@@ -168,7 +177,7 @@ export const MOCK_THEATRES = [
     name: 'PVR: Select Citywalk',
     city: 'Delhi',
     address: 'Saket District Centre, New Delhi',
-    screens: [{ name: 'Screen 1', rows: 6, seatsPerRow: 8 }],
+    screens: [{ name: 'Screen 1 (4DX)', rows: 6, seatsPerRow: 8 }],
   },
   {
     _id: 't4',
@@ -194,13 +203,13 @@ export const generateMockShows = (movieId, city = 'Mumbai', dateStr = '') => {
         _id: `show_${movieId || 'm1'}_${theatre._id}_${sIdx}`,
         movieId: movieId || 'm1',
         theatreId: theatre,
-        screenName: theatre.screens[0]?.name || 'Screen 1',
+        screenName: theatre.screens[0]?.name || 'Screen 1 (Dolby 7.1)',
         time,
         date: dateStr || new Date().toISOString().split('T')[0],
         pricing: {
-          standard: 180,
-          premium: 260,
-          vip: 420,
+          standard: 200,
+          premium: 320,
+          vip: 500,
         },
         status: 'active',
       });
@@ -211,27 +220,35 @@ export const generateMockShows = (movieId, city = 'Mumbai', dateStr = '') => {
 };
 
 export const generateMockSeats = (showId) => {
-  const rowLetters = ['A', 'B', 'C', 'D', 'E', 'F'];
+  const tiers = [
+    { name: 'RECLINER - ₹500', type: 'vip', price: 500, rows: ['H', 'G'] },
+    { name: 'PRIME - ₹320', type: 'premium', price: 320, rows: ['F', 'E', 'D'] },
+    { name: 'CLASSIC - ₹200', type: 'standard', price: 200, rows: ['C', 'B', 'A'] },
+  ];
+
   const seats = [];
 
-  rowLetters.forEach((row, rIdx) => {
-    let type = 'standard';
-    if (rIdx >= 4) type = 'vip';
-    else if (rIdx >= 2) type = 'premium';
+  tiers.forEach((tier) => {
+    tier.rows.forEach((row) => {
+      for (let num = 1; num <= 12; num++) {
+        const isBooked =
+          (row === 'E' && (num === 5 || num === 6)) ||
+          (row === 'D' && (num === 4 || num === 5)) ||
+          (row === 'B' && (num === 7 || num === 8)) ||
+          (row === 'H' && num === 6);
 
-    for (let num = 1; num <= 8; num++) {
-      // Simulate random realistic taken seats (e.g., C3, C4, D4)
-      const isBooked = (row === 'C' && (num === 3 || num === 4)) || (row === 'D' && num === 5);
-      seats.push({
-        _id: `seat_${showId}_${row}${num}`,
-        showId,
-        row,
-        number: num,
-        type,
-        status: isBooked ? 'booked' : 'available',
-        price: type === 'vip' ? 420 : type === 'premium' ? 260 : 180,
-      });
-    }
+        seats.push({
+          _id: `seat_${showId}_${row}${num}`,
+          showId,
+          row,
+          number: num,
+          type: tier.type,
+          categoryName: tier.name,
+          price: tier.price,
+          status: isBooked ? 'booked' : 'available',
+        });
+      }
+    });
   });
 
   return seats;

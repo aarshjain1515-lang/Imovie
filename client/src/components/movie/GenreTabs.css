@@ -1,9 +1,9 @@
 .genre-tabs {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  border-bottom: 1px solid var(--border-light);
+  gap: 8px;
   overflow-x: auto;
+  padding: 4px 2px 8px;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -13,33 +13,29 @@
 }
 
 .genre-tab {
-  position: relative;
-  padding: var(--space-sm) 0;
-  font-size: var(--font-size-sm);
+  padding: 8px 16px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
   white-space: nowrap;
-  transition: color var(--transition-fast);
-  background: none;
-  border: none;
+  transition: all var(--transition-fast);
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .genre-tab:hover {
-  color: var(--text-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
 }
 
 .genre-tab--active {
-  color: var(--text-primary);
-}
-
-.genre-tab--active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--accent);
-  border-radius: 1px;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border-color: var(--accent) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 14px var(--accent-glow);
 }

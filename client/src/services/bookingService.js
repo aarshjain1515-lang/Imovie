@@ -6,11 +6,16 @@ const bookingService = {
       return await api.post('/bookings', data);
     } catch (e) {
       const mockBookingId = `IMV-${new Date().toISOString().slice(0, 10).replace(/-/g, '')}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const seats = data.seats || [{ row: 'D', number: 4, type: 'premium' }];
+      const totalAmount = seats.reduce((sum, s) => sum + (s.price || 250), 0);
       const mockBooking = {
         _id: mockBookingId,
         bookingId: mockBookingId,
-        seats: data.seats || [{ row: 'A', number: 1, type: 'standard' }],
-        totalAmount: 500,
+        movieId: typeof data.movieId === 'object' && data.movieId ? data.movieId : { title: 'Dune: Part Two', slug: 'dune-part-two', duration: 166, language: 'English' },
+        theatreId: typeof data.theatreId === 'object' && data.theatreId ? data.theatreId : { name: 'PVR INOX: Phoenix Palladium', city: 'Mumbai' },
+        showId: typeof data.showId === 'object' && data.showId ? data.showId : { time: '05:15 PM', date: new Date() },
+        seats,
+        totalAmount,
         status: 'confirmed',
         bookedAt: new Date(),
       };

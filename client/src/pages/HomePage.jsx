@@ -82,9 +82,12 @@ export default function HomePage() {
       <section className="now-showing-section">
         <div className="section-container">
           <div className="section-header">
-            <h2 className="section-title">
-              Now showing in <span className="city-highlight">{city}</span>
-            </h2>
+            <div className="section-title-wrapper">
+              <span className="section-eyebrow">Now Playing</span>
+              <h2 className="section-title">
+                Theatres in <span className="city-highlight">{city}</span>
+              </h2>
+            </div>
             <div className="filters-bar">
               <GenreTabs
                 active={activeGenre}
@@ -92,6 +95,10 @@ export default function HomePage() {
               />
               <div className="search-and-lang">
                 <div className="search-input-wrapper">
+                  <svg className="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
                   <input
                     type="text"
                     placeholder="Search movies..."

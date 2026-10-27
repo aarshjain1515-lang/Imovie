@@ -76,7 +76,7 @@ export default function MyTicketsPage() {
                     {b.theatreId?.name || 'Theatre'} • {b.showId?.time || 'Showtime'}
                   </p>
                   <p className="ticket-item-seats">
-                    Seats: {b.seats.map((s) => `${s.row}${s.number}`).join(', ')}
+                    Seats: {Array.isArray(b.seats) ? b.seats.map((s) => `${s.row}${s.number}`).join(', ') : 'Assigned'}
                   </p>
                 </div>
 

@@ -20,14 +20,24 @@ export default function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email.trim()) {
+      setError('Please enter your email or username.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError('');
-      await login(email, password);
-      navigate(redirect);
+      const loggedUser = await login(email.trim(), password);
+      // If user is admin and no explicit redirect was provided, take them to admin or redirect
+      if (loggedUser?.role === 'admin' && redirect === '/') {
+        navigate('/admin');
+      } else {
+        navigate(redirect);
+      }
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.response?.data?.message || 'Invalid email or password. Please try again.');
+      setError(err.response?.data?.message || err.message || 'Invalid login details. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -52,13 +62,13 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="auth-field">
-            <label htmlFor="loginEmail">Email address</label>
+            <label htmlFor="loginEmail">Email address or username</label>
             <input
               id="loginEmail"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="name@example.com"
+              placeholder="e.g. rohit, user@gmail.com, or admin@imovies.com"
               required
               autoFocus
             />
@@ -72,7 +82,6 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              required
             />
           </div>
 
@@ -80,28 +89,6 @@ export default function LoginPage() {
             {loading ? 'Logging in...' : 'Log in'}
           </Button>
         </form>
-
-        <div style={{ marginTop: 20, padding: '14px', background: 'var(--card-bg, #1a1a2e)', borderRadius: '8px', border: '1px solid var(--border-color, #2d2d48)' }}>
-          <p style={{ fontSize: '0.75rem', color: '#9ca3af', marginBottom: 8, fontWeight: 700, letterSpacing: '0.5px' }}>
-            ⚡ QUICK DEMO CREDENTIALS:
-          </p>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              type="button"
-              onClick={() => { setEmail('admin@imovies.com'); setPassword('Admin@12345'); }}
-              style={{ flex: 1, padding: '7px 10px', background: '#252538', border: '1px solid #444466', borderRadius: '6px', color: '#00d4ff', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}
-            >
-              👑 Admin (admin@imovies.com)
-            </button>
-            <button
-              type="button"
-              onClick={() => { setEmail('aanya@example.com'); setPassword('User@12345'); }}
-              style={{ flex: 1, padding: '7px 10px', background: '#252538', border: '1px solid #444466', borderRadius: '6px', color: '#10b981', fontSize: '0.78rem', cursor: 'pointer', fontWeight: 600 }}
-            >
-              👤 User (aanya@example.com)
-            </button>
-          </div>
-        </div>
 
         <div className="auth-footer">
           Don't have an account?{' '}

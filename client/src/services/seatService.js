@@ -15,6 +15,10 @@ const seatService = {
     return { data: { success: true, count: seats.length, data: seats } };
   },
 
+  async getSeatMap(showId) {
+    return this.getByShow(showId);
+  },
+
   async lock(showId, seatIds) {
     try {
       return await api.post(`/seats/lock`, { showId, seatIds });
@@ -24,11 +28,18 @@ const seatService = {
         data: {
           success: true,
           data: {
-            lockedSeats: seatIds.map((id) => ({ _id: id, status: 'locked' })),
+            lockedSeats: seatIds.map((s) => ({
+              _id: typeof s === 'object' ? `${s.row}${s.number}` : s,
+              status: 'locked',
+            })),
           },
         },
       };
     }
+  },
+
+  async lockSeats(showId, seatIds) {
+    return this.lock(showId, seatIds);
   },
 
   async unlock(showId, seatIds) {

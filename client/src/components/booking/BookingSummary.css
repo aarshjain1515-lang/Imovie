@@ -2,21 +2,24 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
 }
 
 .booking-summary__title {
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  margin-bottom: var(--space-md);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
 }
 
 .booking-summary__row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-sm) 0;
-  font-size: var(--font-size-sm);
+  padding: 8px 0;
+  font-size: 14px;
 }
 
 .booking-summary__label {
@@ -24,42 +27,46 @@
 }
 
 .booking-summary__value {
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .booking-summary__seats {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: 6px;
   justify-content: flex-end;
 }
 
 .booking-summary__seat-tag {
-  padding: 2px 8px;
-  font-size: var(--font-size-xs);
-  background-color: var(--border-light);
-  border-radius: var(--radius-sm);
-  font-weight: 500;
+  padding: 3px 8px;
+  font-size: 12px;
+  background-color: var(--accent);
+  color: #ffffff;
+  border-radius: 4px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px var(--accent-glow);
 }
 
 .booking-summary__divider {
   height: 1px;
-  background-color: var(--border-light);
-  margin: var(--space-sm) 0;
+  background-color: var(--border);
+  margin: 14px 0;
 }
 
 .booking-summary__total {
-  font-size: var(--font-size-md);
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--accent);
 }
 
 .booking-summary__actions {
-  margin-top: var(--space-md);
+  margin-top: 20px;
 }
 
 .booking-summary__max-hint {
-  font-size: var(--font-size-xs);
+  font-size: 12px;
   color: var(--text-tertiary);
-  margin-top: var(--space-sm);
+  margin-top: 10px;
+  text-align: center;
 }

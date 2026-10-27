@@ -1,11 +1,18 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api`
-  : '/api';
+let rawBase = import.meta.env.VITE_API_URL || '';
+if (rawBase) {
+  rawBase = rawBase.replace(/\/$/, '');
+  if (!rawBase.endsWith('/api')) {
+    rawBase += '/api';
+  }
+} else {
+  rawBase = '/api';
+}
 
 const api = axios.create({
-  baseURL,
+  baseURL: rawBase,
+  timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,13 +30,19 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — handle 401
+// Response interceptor — handle 401 gracefully without broken page reloads
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // Don't loop or navigate if the user is already on auth pages or checking /auth/login
+      const isAuthCall = error.config?.url?.includes('/auth/login') || error.config?.url?.includes('/auth/register');
+      const isOnAuthPage = window.location.hash.includes('/login') || window.location.hash.includes('/signup');
+      if (!isAuthCall && !isOnAuthPage) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('imovies_current_user');
+        window.location.hash = '#/login';
+      }
     }
     return Promise.reject(error);
   }

@@ -44,6 +44,7 @@ export default function MoviesPage() {
     <div className="movies-page">
       <div className="movies-page-container">
         <header className="movies-page-header">
+          <span className="movies-page-eyebrow">Cinema Catalog</span>
           <h1 className="movies-page-title">All Movies</h1>
           <p className="movies-page-desc">
             Explore now-showing blockbusters and upcoming theatrical releases.
@@ -52,17 +53,25 @@ export default function MoviesPage() {
           <div className="movies-controls-bar">
             <GenreTabs active={genre} onChange={setGenre} />
             <div className="movies-filter-tools">
-              <input
-                type="text"
-                placeholder="Search by title..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="movies-search-input"
-              />
+              <div className="movies-search-input-wrapper">
+                <svg className="movies-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search by title..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="movies-search-input"
+                  aria-label="Search by title"
+                />
+              </div>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
                 className="movies-lang-select"
+                aria-label="Filter by language"
               >
                 {LANGUAGES.map((l) => (
                   <option key={l} value={l}>
